@@ -11,14 +11,18 @@ Base.metadata.create_all(bind=engine)
 
 app = FastAPI(title="SplitX Backend")
 
+origins = [
+    "http://localhost:5173",  # local dev
+    "https://splitx-frontend.vercel.app",  # deployed frontend URL
+]
+
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["http://localhost:5173"],  # React dev server
+    allow_origins=origins,
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
 )
-
 app.include_router(user_routes.router, prefix="/user")
 app.include_router(expense_routes.router, prefix="/expense")
 
